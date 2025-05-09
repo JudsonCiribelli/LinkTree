@@ -18,6 +18,7 @@ export default tseslint.config(
       "react-hooks": reactHooks,
       "react-refresh": reactRefresh,
       "simple-import-sort": simpleImportSort,
+      
     },
     rules: {
       "simple-import-sort/imports": "error",
