@@ -1,3 +1,7 @@
+import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa";
+
+import SocialIcons from "../../components/Social-Icons/social-Icons";
+
 const HomePage = () => {
   return ( 
     <div className="flex flex-col w-full py-4  items-center justify-center">
@@ -11,8 +15,17 @@ const HomePage = () => {
             </p>
           </a>
         </section>
-        <footer className="flex justify-center gap-3 my-4">
 
+        <footer className="flex  justify-center gap-3 my-4">
+          <SocialIcons url="">
+            <FaFacebook size={35} color="#FFF"/>
+          </SocialIcons>
+          <SocialIcons url="">
+            <FaInstagram size={35} color="#FFF"/>
+          </SocialIcons>
+          <SocialIcons url="">
+            <FaYoutube size={35} color="#FFF"/>
+          </SocialIcons>
         </footer>
       </main>
     </div>
