@@ -1,14 +1,31 @@
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { FormEvent, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import InputComponent from "../../components/Input-Component/Input-Component";
+import {auth} from '../../services/firebaseConnection'
 
 const LoginPage = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const navigate = useNavigate()
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
+
+    if(email === '' || password === ''){
+      alert("Preencha todos os campos")
+      return;
+    }
+
+    signInWithEmailAndPassword(auth, email, password)
+    .then(() => {
+      console.log("Login efetuado com sucesso!")
+      navigate('/admin', {replace: true})
+    }).catch((error) => {
+      console.log("Ocorreu algum error ao efetuar login!")
+      return error;
+    })
 
   }
   
@@ -27,7 +44,7 @@ const LoginPage = () => {
          onChange={(e) => setEmail(e.target.value)}
         />
         <InputComponent
-         placeholder="*********"
+         placeholder="******"
          type="password"
          value={password}
          onChange={(e) => setPassword(e.target.value)}
