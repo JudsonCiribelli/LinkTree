@@ -4,6 +4,7 @@ import AdminPage from './pages/admin'
 import HomePage from './pages/home'
 import LoginPage from './pages/login'
 import NetworksPage from './pages/networks'
+import { PrivateRoute } from './routes/private'
  
 
 const router = createBrowserRouter([
@@ -17,11 +18,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin",
-    element: <AdminPage/>
+    element: <PrivateRoute><AdminPage/></PrivateRoute>
   },
   {
     path: "/admin/networks",
-    element: <NetworksPage/>
+    element: <PrivateRoute><NetworksPage/></PrivateRoute>
   }
 ])
 
