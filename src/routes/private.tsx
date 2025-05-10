@@ -8,7 +8,7 @@ import { auth } from "../services/firebaseConnection";
 interface PrivateRouteProps{
   children: ReactNode;
 }
-export const PrivateRoute = ( {children}: PrivateRouteProps ):any => {
+export const PrivateRoute = ( {children}: PrivateRouteProps ) => {
   const [loading, setLoading] = useState(true)
   const [signed, setSigned] = useState(false)
   
