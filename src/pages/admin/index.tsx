@@ -9,6 +9,10 @@ const AdminPage = () => {
   const [urlInput, setUrlInput ] = useState('')
   const [textColorInput, setTextColorInput] = useState('#f1f1f1')
   const [backgroundColorInput, setBackgroundColorInput] = useState('#121212')
+
+  const handleSubmitLinks = () => {
+    console.log('Dados enviados com sucesso!')
+  }
   
   return ( 
     <div className="flex flex-col items-center min-h-screen pb-7">
@@ -60,6 +64,12 @@ const AdminPage = () => {
                 
               </article>
             </div>
+
+            <button
+             type="submit" 
+             className="bg-blue-400 rounded-md text-white font-medium h-9 gap-4 flex items-center justify-center mb-7 cursosr pointer"
+             onClick={handleSubmitLinks}
+            >Cadastrar</button>
     
       </form>
     </div>
