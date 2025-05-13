@@ -1,10 +1,19 @@
 import { addDoc, collection, deleteDoc, onSnapshot, orderBy, query } from "firebase/firestore";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { FiTrash } from "react-icons/fi";
 
 import HeaderComponent from "../../components/header-Component/header-Component";
 import InputComponent from "../../components/Input-Component/Input-Component";
 import { db } from "../../services/firebaseConnection";
+
+interface AdminPageProps{
+  id: string,
+  name: string,
+  url: string,
+  bg: string,
+  color: string
+}
+
 
 const AdminPage = () => {
   
@@ -12,6 +21,33 @@ const AdminPage = () => {
   const [urlInput, setUrlInput ] = useState('')
   const [textColorInput, setTextColorInput] = useState('#f1f1f1')
   const [backgroundColorInput, setBackgroundColorInput] = useState('#121212')
+  const [links, setLinks] = useState<AdminPageProps[]>([])
+
+  useEffect(() => { 
+    const linksRef = collection(db,'links');
+    const queryRef = query(linksRef, orderBy("created", "asc"))
+
+    const unSub = onSnapshot(queryRef,  (snapshot) => {
+      const lista = [] as AdminPageProps[];
+      
+      snapshot.forEach((doc) => {
+        lista.push({
+          id: doc.id,
+          name: doc.data().name,
+          url: doc.data().url,
+          bg: doc.data().bg,
+          color: doc.data().color
+        })
+      })
+      
+      setLinks(lista)
+    })
+
+    // return () => {
+    //   unSub()
+    // }
+
+  },[])
 
   const handleSubmitLinks = async (e: FormEvent) => {
     e.preventDefault();
