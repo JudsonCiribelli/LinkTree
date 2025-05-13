@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { addDoc, collection, deleteDoc, onSnapshot, orderBy, query } from "firebase/firestore";
+import { FormEvent, useState } from "react";
 import { FiTrash } from "react-icons/fi";
 
 import HeaderComponent from "../../components/header-Component/header-Component";
 import InputComponent from "../../components/Input-Component/Input-Component";
+import { db } from "../../services/firebaseConnection";
 
 const AdminPage = () => {
   
@@ -11,14 +13,34 @@ const AdminPage = () => {
   const [textColorInput, setTextColorInput] = useState('#f1f1f1')
   const [backgroundColorInput, setBackgroundColorInput] = useState('#121212')
 
-  const handleSubmitLinks = () => {
-    console.log('Dados enviados com sucesso!')
+  const handleSubmitLinks = async (e: FormEvent) => {
+    e.preventDefault();
+
+    if(nameInput === '' || urlInput === ''){
+      alert('Preencha todos os campos!!')
+      return;
+    }
+
+     addDoc(collection(db, 'links'), {
+      name: nameInput,
+      url: urlInput,
+      bg: backgroundColorInput,
+      color: textColorInput,
+      created: new Date()
+    }).then(() =>{
+      console.log('Cadastro realizado com sucesso!')
+      setNameInput('')
+      setUrlInput('')
+    }).catch((error) => {
+      console.log('Error ao cadastrar' + error)
+    })
+
   }
   
   return ( 
     <div className="flex flex-col items-center min-h-screen pb-7">
       <HeaderComponent/>
-      <form className="flex flex-col my-8 w-full max-w-xl">
+      <form className="flex flex-col my-8 w-full max-w-xl" onSubmit={handleSubmitLinks}>
          <label className="text-white font-medium my-2">Nome do link</label>
           <InputComponent
            placeholder="Digite o nome do seu link..."
@@ -70,7 +92,6 @@ const AdminPage = () => {
             <button
              type="submit" 
              className="bg-blue-400 rounded-md text-white font-medium h-9 gap-4 flex items-center justify-center mb-7 cursosr pointer"
-             onClick={handleSubmitLinks}
             >Cadastrar</button>
       </form>
 
