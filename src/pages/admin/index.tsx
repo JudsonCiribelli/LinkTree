@@ -1,4 +1,4 @@
-import { addDoc, collection, deleteDoc, onSnapshot, orderBy, query } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, onSnapshot, orderBy, query } from "firebase/firestore";
 import { FormEvent, useEffect, useState } from "react";
 import { FiTrash } from "react-icons/fi";
 
@@ -43,9 +43,9 @@ const AdminPage = () => {
       setLinks(lista)
     })
 
-    // return () => {
-    //   unSub()
-    // }
+    return () => {
+      unSub()
+    }
 
   },[])
 
@@ -71,6 +71,13 @@ const AdminPage = () => {
       console.log('Error ao cadastrar' + error)
     })
 
+  }
+
+  const handleDeleteLink = async (id: string) => {
+    const docRef = doc(db, 'links',id);
+    
+    await deleteDoc(docRef)
+  
   }
   
   return ( 
@@ -133,19 +140,21 @@ const AdminPage = () => {
 
 
       <h2 className="text-white text-3xl font-medium mb-4">Meus links</h2>
-
-      <article 
-      className="flex items-center justify-between w-11/12 max-w-xl rounded py-3 px-3 mb-2 select-none"
-      style={{backgroundColor: "#5e4a4a47", color: '#ffffff'}}
-      >
-        <p>Canal do Youtube</p>
-        <div>
-          <button className="border border-dashed py-1 px-2 rounded cursor-pointer bg-black">
-            <FiTrash size={24} color="#FFF"/>
-          </button>
-        </div>
-      </article>
+      
+      {links.map((link) => (
+        <article 
+         className="flex items-center justify-between w-11/12 max-w-xl rounded py-3 px-3 mb-2 select-none"
+         style={{backgroundColor: link.bg, color: link.color}}
+         key={link.id}>
+         <p>{link.name}</p>
+          <div>
+            <button className="border border-dashed py-1 px-2 rounded cursor-pointer bg-black" onClick={() => handleDeleteLink(link.id)}>
+              <FiTrash size={24} color="#FFF"/>
+            </button>
+          </div>
+        </article>
     
+      ))}
     
     
     </div>
