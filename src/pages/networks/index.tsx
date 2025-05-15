@@ -1,5 +1,5 @@
-import {doc,setDoc} from 'firebase/firestore'
-import { FormEvent, useState } from "react";
+import {doc,getDoc,setDoc} from 'firebase/firestore'
+import { FormEvent, useEffect,useState } from "react";
 
 import HeaderComponent from "../../components/header-Component/header-Component";
 import InputComponent from "../../components/Input-Component/Input-Component";
@@ -11,6 +11,31 @@ const NetworksPage = () => {
   const [facebookLink, setFacebookLink] = useState('')
   const [instagramLink, setInstagramLink] = useState('')
   const [youtubeLink, setYoutubeLink] = useState('')
+
+
+  useEffect(() => {
+    
+    const loadLinks = () => {
+
+      const docRef = doc(db, 'social', 'link')
+      getDoc(docRef)
+      .then((snapshot) => {
+
+        if(snapshot.data() !== undefined){
+          setFacebookLink(snapshot.data()?.facebookLink);
+          setInstagramLink(snapshot.data()?.instagramLink);
+          setYoutubeLink(snapshot.data()?.youtubeLink);
+        }
+
+      }).catch((error) => {
+        console.log(error)
+      })
+
+    }
+
+    loadLinks()
+  
+  },[])
 
   const handleRegister = (e: FormEvent) => {
     e.preventDefault()
