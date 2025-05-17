@@ -51,6 +51,28 @@ const HomePage = () => {
   
   
   },[])
+
+
+  useEffect(() => {
+    
+    const loadSocialLinks = () => {
+      const docRef = doc(db, 'social', 'link');
+      getDoc(docRef)
+      .then((snapshot) => {
+         if(snapshot.data() !== undefined){
+        setSocialLinks({
+          facebook: snapshot.data()?.facebook,
+          instagram: snapshot.data()?.instagram,
+          youtube: snapshot.data()?.youtube,
+        })
+
+      }
+    })
+    }
+  
+    loadSocialLinks()
+ 
+  },[ ])
   
   
   return ( 
@@ -73,17 +95,23 @@ const HomePage = () => {
           </section>
         ))}
 
-        <footer className="flex  justify-center gap-3 my-4">
-          <SocialIcons url="">
-            <FaFacebook size={35} color="#FFF"/>
-          </SocialIcons>
-          <SocialIcons url="">
-            <FaInstagram size={35} color="#FFF"/>
-          </SocialIcons>
-          <SocialIcons url="">
-            <FaYoutube size={35} color="#FFF"/>
-          </SocialIcons>
-        </footer>
+        {socialLinks && Object.keys(socialLinks).length > 0 && (
+          <footer className="flex  justify-center gap-3 my-4">
+            <SocialIcons url={socialLinks?.facebook}>
+             <FaFacebook size={35} color="#FFF"/>
+            </SocialIcons>
+            <SocialIcons url={socialLinks?.instagram}>
+              <FaInstagram size={35} color="#FFF"/>
+            </SocialIcons>
+            <SocialIcons url={socialLinks?.youtube}>
+              <FaYoutube size={35} color="#FFF"/>
+            </SocialIcons>
+          </footer>
+        )}
+
+
+
+
       </main>
     </div>
    );
