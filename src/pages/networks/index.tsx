@@ -18,13 +18,14 @@ const NetworksPage = () => {
     const loadLinks = () => {
 
       const docRef = doc(db, 'social', 'link')
-      getDoc(docRef)
-      .then((snapshot) => {
+      getDoc(docRef).then((snapshot) => {
 
         if(snapshot.data() !== undefined){
+
           setFacebookLink(snapshot.data()?.facebookLink);
           setInstagramLink(snapshot.data()?.instagramLink);
           setYoutubeLink(snapshot.data()?.youtubeLink);
+       
         }
 
       }).catch((error) => {
